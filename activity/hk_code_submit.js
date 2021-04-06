@@ -37,9 +37,11 @@ browserPromise.then(function (browserInstance) {
     })
     .then(function () {
         let clickIPkit = waitAndClick(".card-content h3[title='Interview Preparation Kit']");
+        // console.log("hello");
         return clickIPkit;
     })
     .then(function () {
+        // console.log("3 hello");
         let clickwarmupPromise = waitAndClick("a[data-attr1='warmup']");
         return clickwarmupPromise;
     }).then(function () {
@@ -55,13 +57,16 @@ console.log("After");
 
 function waitAndClick(selector) {
     return new Promise(function (resolve, reject) {
+
         let selectorWaitPromise = gtab.waitForSelector(selector, { visible: true });
+        // console.log("1 hello");
         selectorWaitPromise.then(function () {
+            // console.log("2 hello");
             let selectorClickPromise = gtab.click(selector);
             return selectorClickPromise;
         }).then(function () {
             resolve();
-        }).catch(function () {
+        }).catch(function (err) {
             reject(err);
         }) 
     })
@@ -86,10 +91,55 @@ function questionSolver(modulepageUrl, code, questionName) {
                 // console.log("hello");
                 allH4Elem[idx].click();
             }
+
             let pageClickPromise = gtab.evaluate(browserconsolerunFn, questionName); // the function called here will be called on the browser document i.e ye wala function yha console pr nhi chlega jo browser ka console h wha chalega
             return pageClickPromise;
-        }).then(function () {
+        })
+        .then(function(){
+            let inputclickedPromise = waitAndClick(".custom-checkbox.inline");
+            return inputclickedPromise;
+        })
+        .then(function(){
+            let inputboxclickedPromise = gtab.type(".custominput", code);
+            return inputboxclickedPromise;
+        })
+        .then(function(){
+            let controlPressedPromise = gtab.keyboard.down("Control");
+            return controlPressedPromise;
+        })
+        .then(function(){
+            //cntrl a
+            let aisPressedPromise = gtab.keyboard.press("A");
+            return aisPressedPromise;
+        })
+        .then(function(){
+            //cntrl x
+            let xisPressedPromise = gtab.keyboard.press("X");
+            return xisPressedPromise;
+        })
+        .then(function(){
+            let textAreaisClicked = gtab.click(".monaco-editor.no-user-select.vs")
+            return textAreaisClicked;
+        })
+        .then(function(){
+            //cntrl a
+            let aisPressedPromise = gtab.keyboard.press("A");
+            return aisPressedPromise;
+        })
+        .then(function(){
+            //cntrl v
+            let visPressedPromise = gtab.keyboard.press("V");
+            return visPressedPromise;
+        })
+        .then(function(){
+            let submitButtonClickedPromised = gtab.click(".pull-right.btn.btn-primary.hr-monaco-submit");
+            return submitButtonClickedPromised;
+        })
+        .then(function () {
             resolve();
+        })
+        .catch(function(err){
+            console.log(err);
         })
         // questionName-> appear -> click
         // read 
