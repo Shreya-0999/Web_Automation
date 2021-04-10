@@ -1,7 +1,7 @@
 let puppeteer = require("puppeteer");
+let fs = require("fs");
 let { password, email } = require("../secrets");
 let { codes } = require("./code");
-let fs = require("fs");
 
 (async function () {
     try{
