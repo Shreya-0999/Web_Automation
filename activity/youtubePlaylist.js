@@ -51,8 +51,10 @@ function getStats(title, duration) {
     let name = document.querySelectorAll(title);
     let time = document.querySelectorAll(duration);
     let newarr = []
-    for (let i = 0; i < name.length; i++)
+    for (let i = 0; i < name.length; i++){
+        if(name[i].innerText && time[i].innerText)
         newarr.push({Name : name[i].innerText, Time: time[i].innerText});
+    }
     return newarr;
 }
 
